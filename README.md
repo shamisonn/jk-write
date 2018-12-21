@@ -8,14 +8,8 @@ Jekyllにおける`_post`ディレクトリにファイル生成をしたり、
 
 # insall
 
-```
+```sh
 $ go get shamisonn/jk-write
-```
-
-for developers
-```
-$ make build
-$ make install
 ```
 
 # usage
@@ -34,7 +28,7 @@ $ export JK_WRITE_ROOT="/set/your/full/path/jekyll/_post"
 ### list
 `_post`の中身のファイルを表示します。
 
-```
+```sh
 $ jk-write list
 2016-03-19-init.md
 2016-12-31-diary.md
@@ -44,7 +38,7 @@ $ jk-write list
 
 ### new
 `_post`に新たなファイルを生成します。必ず`title`を入力する必要があります。
-```
+```sh
 $ jk-write new hoge # title を hoge としている。
 Do you make new file?(2018-12-21-hoge.md)[y/n]: y # input y or n
 new file: 2018-12-21-hoge.md
@@ -52,7 +46,7 @@ new file: 2018-12-21-hoge.md
 
 ### root
 `JK_WRITE_ROOT`の値を表示します。
-```
+```sh
 $ jk-write root
 /set/your/full/path/jekyll/_post
 ```
@@ -84,3 +78,16 @@ mode: post
 
 <!more>
 ```
+
+
+# for developers
+
+you can use make
+```sh
+$ make build
+$ make install
+```
+
+# if happen some problem
+
+Write issue.
