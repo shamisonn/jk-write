@@ -16,7 +16,6 @@ import (
 var Commands = []cli.Command{
 	cmdList,
 	cmdNew,
-	cmdUpdate,
 	cmdRoot,
 }
 
@@ -32,13 +31,6 @@ var cmdNew = cli.Command{
 	Usage:       "make a post",
 	Description: `Not yet`,
 	Action:      doNew,
-	//	Flags: []cli.Flag{},
-}
-var cmdUpdate = cli.Command{
-	Name:        "update",
-	Usage:       "reopen old file",
-	Description: `Not yet`,
-	Action:      doUpdate,
 	//	Flags: []cli.Flag{},
 }
 var cmdRoot = cli.Command{
@@ -68,9 +60,6 @@ func getLastChar(s string) byte {
 }
 
 func doNew(c *cli.Context) error {
-	return nil
-}
-func doUpdate(c *cli.Context) error {
 	return nil
 }
 
