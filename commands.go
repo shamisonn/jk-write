@@ -121,12 +121,12 @@ func doRoot(c *cli.Context) error {
 }
 
 func getRoot() string {
-	root := os.Getenv("GH_WRITE_ROOT")
+	root := os.Getenv("JK_WRITE_ROOT")
 	if root == "" {
-		log.Fatal("You should set fullpath to GH_WRITE_ROOT")
+		log.Fatal("You should set fullpath to JK_WRITE_ROOT")
 	}
 	if getLastChar(root) == '/' {
-		os.Setenv("GH_WRITE_ROOT", root[:(len(root)-1)])
+		os.Setenv("JK_WRITE_ROOT", root[:(len(root)-1)])
 	}
 	return root
 }
