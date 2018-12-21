@@ -14,7 +14,11 @@ Jekyllにおける`_post`ディレクトリにファイル生成をしたり、
 ```fish
 alias jkn="jk-write new"
 function jkw -d "write jekyll post"
-	emacs (jk-write root)/(jk-write list -r | fzf)
+    eval "jk-write list -r | fzf --query (commandline)" | read -z select
+    if not test -z $select
+        eval "emacs (jk-write root)/(builtin string trim "$select")"
+    end
+    commandline -f repaint
 end
 ```
 
