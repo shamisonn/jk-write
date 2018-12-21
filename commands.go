@@ -55,12 +55,18 @@ func doList(c *cli.Context) error {
 		log.Fatal("Can't get root directory files.")
 	}
 	for _, file := range files {
-		if file.Name()[len(file.Name())-1] != '~' {
+		if getLastChar(file.Name()) != '~' {
 			fmt.Println(file.Name())
 		}
 	}
 	return nil
 }
+
+// this can't use for multibyte string
+func getLastChar(s string) byte {
+	return s[len(s)-1]
+}
+
 func doNew(c *cli.Context) error {
 	return nil
 }
