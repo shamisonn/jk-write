@@ -26,7 +26,12 @@ var cmdList = cli.Command{
 	Usage:       "show post list",
 	Description: `Not yet`,
 	Action:      doList,
-	//	Flags: []cli.Flag{},
+	Flags: []cli.Flag{
+		cli.BoolFlag{
+			Name:  "reverse, r",
+			Usage: "reverse list",
+		},
+	},
 }
 var cmdNew = cli.Command{
 	Name:        "new",
@@ -49,12 +54,22 @@ func doList(c *cli.Context) error {
 	if err != nil {
 		log.Fatal("Can't get root directory files.")
 	}
+	if c.Bool("reverse") {
+		files = reverseFiles(files)
+	}
 	for _, file := range files {
 		if getLastChar(file.Name()) != '~' {
 			fmt.Println(file.Name())
 		}
 	}
 	return nil
+}
+
+func reverseFiles(files []os.FileInfo) []os.FileInfo {
+	if len(files) == 0 {
+		return files
+	}
+	return append(reverseFiles(files[1:]), files[0])
 }
 
 // this can't use for multibyte string
