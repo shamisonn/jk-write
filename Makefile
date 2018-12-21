@@ -1,4 +1,4 @@
-build: install
+build:
 	go build -v
 
 install:
