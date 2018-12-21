@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -34,7 +36,7 @@ var cmdNew = cli.Command{
 }
 var cmdUpdate = cli.Command{
 	Name:        "update",
-	Usage:       "",
+	Usage:       "reopen old file",
 	Description: `Not yet`,
 	Action:      doUpdate,
 	//	Flags: []cli.Flag{},
@@ -48,6 +50,15 @@ var cmdRoot = cli.Command{
 }
 
 func doList(c *cli.Context) error {
+	files, err := ioutil.ReadDir(getRoot())
+	if err != nil {
+		log.Fatal("Can't get root directory files.")
+	}
+	for _, file := range files {
+		if file.Name()[len(file.Name())-1] != '~' {
+			fmt.Println(file.Name())
+		}
+	}
 	return nil
 }
 func doNew(c *cli.Context) error {
@@ -58,13 +69,14 @@ func doUpdate(c *cli.Context) error {
 }
 
 func doRoot(c *cli.Context) error {
+	fmt.Println(getRoot())
 	return nil
 }
 
 func getRoot() string {
 	root := os.Getenv("GH_WRITE_ROOT")
 	if root == "" {
-		log.Fatal("set GH_WRITE_ROOT")
+		log.Fatal("You should set fullpath to GH_WRITE_ROOT")
 	}
 	return root
 }
