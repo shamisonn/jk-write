@@ -95,6 +95,11 @@ $ make build
 $ make install
 ```
 
+# Similar Project
+
+上位互換のプログラムが公開されていました。
+- [mattn/memo](https://github.com/mattn/memo)
+
 # If happen some problem
 
 Write issue.
