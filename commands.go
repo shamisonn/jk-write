@@ -72,11 +72,6 @@ func reverseFiles(files []os.FileInfo) []os.FileInfo {
 	return append(reverseFiles(files[1:]), files[0])
 }
 
-// this can't use for multibyte string
-func getLastChar(s string) byte {
-	return s[len(s)-1]
-}
-
 func doNew(c *cli.Context) error {
 	title := c.Args().First()
 	if title == "" {
@@ -95,19 +90,23 @@ func doNew(c *cli.Context) error {
 }
 
 func makeNewFile(filename string) {
-	tmp, err := os.Open("./tmp.md")
+	var nf *os.File
+	if !isExist("~/tmp.md") {
+		nf, err := os.Create(getRoot() + "/" + filename)
+		if err != nil {
+			log.Fatal("Can't make new file!")
+			os.Exit(1)
+		}
+		defer nf.Close()
+		return
+	}
+
+	tmp, err := os.Open("~/tmp.md")
 	if err != nil {
 		log.Fatal("Can't open tmp file!")
 		os.Exit(1)
 	}
 	defer tmp.Close()
-
-	nf, err := os.Create(getRoot() + "/" + filename)
-	if err != nil {
-		log.Fatal("Can't make new file!")
-		os.Exit(1)
-	}
-	defer nf.Close()
 
 	_, err = io.Copy(nf, tmp)
 	if err != nil {

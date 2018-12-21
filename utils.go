@@ -27,3 +27,13 @@ func confirm(s string) bool {
 		return false
 	}
 }
+
+// this can't use for multibyte string
+func getLastChar(s string) byte {
+	return s[len(s)-1]
+}
+
+func isExist(filename string) bool {
+	_, err := os.Stat(filename)
+	return err == nil
+}
