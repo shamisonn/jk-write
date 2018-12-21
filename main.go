@@ -12,7 +12,7 @@ func main() {
 
 func newApp() *cli.App {
 	app := cli.NewApp()
-	app.Name = "ghwrite"
+	app.Name = "jk-write"
 	app.Usage = "Write gh-page(made by Jekyll) post"
 	app.Version = "0.1"
 	app.Author = "shamisonn"
