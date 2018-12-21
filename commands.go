@@ -90,28 +90,27 @@ func doNew(c *cli.Context) error {
 }
 
 func makeNewFile(filename string) {
-	var nf *os.File
-	if !isExist("~/tmp.md") {
-		nf, err := os.Create(getRoot() + "/" + filename)
+
+	nf, err := os.Create(getRoot() + "/" + filename)
+	if err != nil {
+		log.Fatal("Can't make new file!")
+		os.Exit(1)
+	}
+	defer nf.Close()
+	tmpfile := os.Getenv("HOME") + "/tmp.md"
+	if isExist(tmpfile) {
+		tmp, err := os.Open(tmpfile)
 		if err != nil {
-			log.Fatal("Can't make new file!")
+			log.Fatal("Can't open tmp file!")
 			os.Exit(1)
 		}
-		defer nf.Close()
-		return
-	}
+		defer tmp.Close()
 
-	tmp, err := os.Open("~/tmp.md")
-	if err != nil {
-		log.Fatal("Can't open tmp file!")
-		os.Exit(1)
-	}
-	defer tmp.Close()
-
-	_, err = io.Copy(nf, tmp)
-	if err != nil {
-		log.Fatal("Can't copy to new file!")
-		os.Exit(1)
+		_, err = io.Copy(nf, tmp)
+		if err != nil {
+			log.Fatal("Can't copy to new file!")
+			os.Exit(1)
+		}
 	}
 }
 

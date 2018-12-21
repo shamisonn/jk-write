@@ -6,11 +6,21 @@ Jekyllにおける`_post`ディレクトリにファイル生成をしたり、
 その中身を参照することができます。
 なお`motemen/ghq`を強く参照して作られました。
 
-# Install
+# Feature
 
-```sh
-$ go get shamisonn/jk-write
+`fzf`(もしくは`peco`)と組み合わせて便利なコマンドを作ることができます。
+
+`fish`での実際のコードを下記に示します。
+```fish
+alias jkn="jk-write new"
+function jkw -d "write jekyll post"
+	code (jk-write root)/(jk-write list -r | fzf)
+end
 ```
+
+DEMO
+
+![demo](demo.gif)
 
 # Usage
 
@@ -51,18 +61,6 @@ $ jk-write root
 /set/your/full/path/jekyll/_post
 ```
 
-## For cli users
-
-`fzf`(もしくは`peco`)と組み合わせて便利なコマンドを作ることができます。
-
-`fish`での実際のコードを下記に示します。
-```fish
-alias jkn="jk-write new"
-function jkw -d "write jekyll post"
-	code (jk-write root)/(jk-write list -r | fzf)
-end
-```
-
 ## Additional option
 生成するファイルに予めテンプレートを書き込んでおきたい場合は
 `$HOME/tmp.md`にそれを記述しておくとそれを検出し、
@@ -79,6 +77,11 @@ mode: post
 <!more>
 ```
 
+# Install
+
+```sh
+$ go get shamisonn/jk-write
+```
 
 # For developers
 
