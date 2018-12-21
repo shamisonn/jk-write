@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"time"
 
 	"github.com/urfave/cli"
 )
@@ -30,6 +32,7 @@ var cmdNew = cli.Command{
 	Name:        "new",
 	Usage:       "make a post",
 	Description: `Not yet`,
+	ArgsUsage:   "<title>",
 	Action:      doNew,
 	//	Flags: []cli.Flag{},
 }
@@ -60,7 +63,42 @@ func getLastChar(s string) byte {
 }
 
 func doNew(c *cli.Context) error {
+	title := c.Args().First()
+	if title == "" {
+		cli.ShowCommandHelp(c, "new")
+		os.Exit(1)
+	}
+	today := time.Now().Format("2006-01-02")
+	newFileName := fmt.Sprintf("%s-%s.md", today, title)
+	if !confirm("you make new file?(" + newFileName + ")") {
+		fmt.Println("cancel")
+		return nil
+	}
+	makeNewFile(newFileName)
+	fmt.Println("new file: " + newFileName)
 	return nil
+}
+
+func makeNewFile(filename string) {
+	tmp, err := os.Open("./tmp.md")
+	if err != nil {
+		log.Fatal("Can't open tmp file!")
+		os.Exit(1)
+	}
+	defer tmp.Close()
+
+	nf, err := os.Create(getRoot() + "/" + filename)
+	if err != nil {
+		log.Fatal("Can't make new file!")
+		os.Exit(1)
+	}
+	defer nf.Close()
+
+	_, err = io.Copy(nf, tmp)
+	if err != nil {
+		log.Fatal("Can't copy to new file!")
+		os.Exit(1)
+	}
 }
 
 func doRoot(c *cli.Context) error {
@@ -72,6 +110,9 @@ func getRoot() string {
 	root := os.Getenv("GH_WRITE_ROOT")
 	if root == "" {
 		log.Fatal("You should set fullpath to GH_WRITE_ROOT")
+	}
+	if getLastChar(root) == '/' {
+		os.Setenv("GH_WRITE_ROOT", root[:(len(root)-1)])
 	}
 	return root
 }
